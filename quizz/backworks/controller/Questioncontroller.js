@@ -9,19 +9,46 @@ export const Questions = async (req, res)=>{
     }
 }
 
-export const CatQuestions = async (req, res)=>{
+export const SingleQuestions = async (req, res)=>{
     try{
-        const {category} = req.params;
-        console.log(category)
-        if (category){
-            res.status(200).json(await quizz.find({category:category}));
-
+        const {id} = req.params;
+        
+        const question = await quizz.findById(id);
+        if (!question){
+            return res.status(404).json({err_mes:"question not found"})
         }
-        else{
-            res.status(404).json({err_mes:"category not found"})
-        }
+        res.status(200).json(question)
     }catch(error){
         res.status(404).json({mess:error.message})
+    }
+}
+
+export const CategoryQuestion = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const questions = await quizz.find({category: category});
+
+    if (!questions || questions.length === 0) {
+      return res.status(404).json({ msg: "No questions found for this category" });
+    }
+
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ err_msg: error.message });
+  }
+};
+
+export const Categorys = async(req, res, next) => {
+    try {
+        
+        const categorys = await quizz.distinct("category");
+        if (!categorys) {
+            res.status(404).json({message:"no such category found"})
+        }
+
+        res.status(200).json(categorys)
+    } catch (error) {
+        res.status(500).json({message : error.message})
     }
 }
 

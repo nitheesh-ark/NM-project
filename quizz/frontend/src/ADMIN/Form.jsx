@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import {toast} from 'react-toastify';
+import axios from "axios";
+
+const localhost = import.meta.env.VITE_Local_network
 
 const AdminPage = () => {
   const [question, setQuestion] = useState("");
@@ -19,14 +23,15 @@ const AdminPage = () => {
     e.preventDefault();
 
     const newQuiz = { question, options, correctAnswerIndex, category };
-
-    await fetch("http://localhost:5000/api/admin/quiz", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newQuiz),
+    axios.post(`${localhost}/api/admin/quess`, newQuiz)
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error adding quiz:", err);
     });
 
-    alert("✅ Quiz added successfully!");
+    toast.success("Quiz added successfully!");
     setQuestion("");
     setOptions(["", ""]);
     setCorrectAnswerIndex(0);
@@ -80,6 +85,7 @@ const AdminPage = () => {
                     
                     {options.length > 2 && (
                       <button
+                        key={index}
                         type="button"
                         className="btn btn-error btn-sm rounded-lg"
                         onClick={() => removeOption(index)}

@@ -1,15 +1,24 @@
+import { useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+
+const localhost = import.meta.env.VITE_Local_network;  
 
 function Category() {
-  const categories = [
-    'Science',
-    'Geography',
-    'Literature',
-    'Sports',
-    'Entertainment',
-    'Technology',
-  ];
+
+  const [categories, setcategory] = useState([])
+
+  useEffect(() => {
+    axios.get(`${localhost}/api/admin/quess/categorys`)
+    .then((res)=>{
+       console.log("API response:", res.data); // 👈 check here
+      setcategory(res.data)
+    }).catch(e => {
+      console.log(e.message)
+    })
+  },[])
 
   return (
     <div className="min-h-screen flex items-center justify-center  bg-gradient-to-br from-gray-100 via-violet-300 to-fuchsia-100">
@@ -20,15 +29,18 @@ function Category() {
           <h1 className="text-gray-800 text-3xl font-semibold">
             Choose a Category
           </h1>
+          <Link to = '/admin'>
           <button className="flex items-center gap-2 bg-violet-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-violet-700 hover:shadow-lg transition">
             <FaPlus size={14} /> Add Category
           </button>
+          </Link>
         </div>
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {categories.map((cat, index) => (
-            <Link to = "/questions">
+            <Link to = {`/questions/${cat}`}>
+              {console.log(cat)}
             <div
               key={index}
               className="flex items-center gap-4 backdrop-blur-md bg-white/70 border border-gray-200 shadow-md 

@@ -1,6 +1,8 @@
 import {Link} from "react-router-dom";
 
 function Select() {
+  let id = "coadingisfun";
+  const encoded = encodeURIComponent(id);
     return(
         <>
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-violet-300 to-fuchsia-100">
@@ -24,7 +26,7 @@ function Select() {
             </div>
             </Link>
 
-            <Link to="/home">
+            <Link to={`/home/${encoded}`} >
             <div className="flex backdrop-blur-md bg-white/70 border border-gray-200 shadow-md 
                          rounded-xl p-6 text-center text-gray-700 font-medium cursor-pointer 
                          hover:shadow-xl hover:scale-105 transition-all duration-300 justify-between ">
