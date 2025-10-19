@@ -29,7 +29,7 @@ function Resultpage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-violet-200 via-purple-300 to-fuchsia-200 p-5">
+    <div className="min-h-screen flex flex-col items-center justify-center  bg-gradient-to-br from-gray-100 via-violet-400 to-fuchsia-100 p-5">
   
       <h1 className="text-center text-purple-900 text-4xl font-extrabold drop-shadow mb-6">
         Quiz Result
